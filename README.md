@@ -49,16 +49,17 @@ python main.py [--repo REPO_URL | --dir LOCAL_PATH] [options]
 ### Examples
 
 Generate a complete codebase tutorial by running the main script:
-    ```bash
-    # Analyze a GitHub repository
-    python main.py --repo https://github.com/username/repo --include "*.py" "*.js" --exclude "tests/*" --max-size 50000
 
-    # Or, analyze a local directory
-    python main.py --dir /path/to/your/codebase --include "*.py" --exclude "*test*"
+```bash
+# Analyze a GitHub repository
+python main.py --repo https://github.com/username/repo --include "*.py" "*.js" --exclude "tests/*" --max-size 50000
 
-    # Or, generate a tutorial in Chinese
-    python main.py --repo https://github.com/username/repo --language "Chinese"
-    ```
+# Or, analyze a local directory
+python main.py --dir /path/to/your/codebase --include "*.py" --exclude "*test*"
+
+# Or, generate a tutorial in Chinese
+python main.py --repo https://github.com/username/repo --language "Chinese"
+```
 
 ## Architecture
 
