@@ -217,6 +217,11 @@ Combining tutorial into directory: output/ai-travel-agent
 Tutorial generation complete! Files are in: output/ai-travel-agent
 </details>
 
+### PyTest
+
+Sample Test:
+PYTHONPATH=. pytest -v tests/utils/test_call_llm.py
+
 ### References
 Combined from below code bases just using OpenRouter as LLM:
 https://github.com/The-Pocket/PocketFlow
