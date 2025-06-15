@@ -1,10 +1,6 @@
 import dotenv
 import os
 import argparse
-# Import the function that creates the flow
-from src.flow import create_tutorial_flow
-
-dotenv.load_dotenv()
 
 # Default file patterns
 DEFAULT_INCLUDE_PATTERNS = {
@@ -37,6 +33,11 @@ DEFAULT_EXCLUDE_PATTERNS = {
 
 # --- Main Function ---
 def main():
+    dotenv.load_dotenv()
+    
+    # Import the function that creates the flow - after dotenv loaded.
+    from src.flow import create_tutorial_flow
+    
     parser = argparse.ArgumentParser(description="Generate a tutorial for a GitHub codebase or local directory.")
 
     # Create mutually exclusive group for source
