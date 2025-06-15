@@ -1,22 +1,54 @@
-## 🚀 Getting Started
+# CodeViz
 
-1. Clone this repository
-   ```bash
-   git clone https://github.com/rsrini7/CodeViz
-   ```
+CodeViz is a powerful tool that automatically generates comprehensive tutorials from codebases using Large Language Models (LLMs). It can analyze both GitHub repositories and local directories to create structured, easy-to-understand documentation.
 
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Features
 
-4. Set up LLM & GitHub credentials
-   ```
-   OPENROUTER_API_KEY=your_openrouter_api_key
-   GITHUB_TOKEN=your_github_token
-   ```
+- 🔍 Analyze GitHub repositories or local directories
+- 📚 Generate structured tutorials with chapters
+- 🤖 Powered by LLMs for intelligent code understanding
+- 🎯 Smart file filtering with customizable patterns
+- 💾 Caching system for LLM calls
+- 🔄 Robust retry mechanism for reliability
+- 📝 Detailed logging of LLM interactions
 
-5. Generate a complete codebase tutorial by running the main script:
+## Installation
+
+1. Clone the repository
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+3. Set up environment variables:
+   - Create a `.env` file in the root directory
+   - Add your OpenRouter API key and GitHub token (if needed):
+```bash
+OPENROUTER_API_KEY=your_api_key_here
+GITHUB_TOKEN=your_github_token_here  # Optional, for private repos
+```
+
+## Usage
+
+```bash
+python main.py [--repo REPO_URL | --dir LOCAL_PATH] [options]
+```
+
+### Options
+
+- `--repo` or `--dir` - Specify either a GitHub repo URL or a local directory path (required, mutually exclusive)
+    - `-n, --name` - Project name (optional, derived from URL/directory if omitted)
+    - `-t, --token` - GitHub token (or set GITHUB_TOKEN environment variable)
+    - `-o, --output` - Output directory (default: ./output)
+    - `-i, --include` - Files to include (e.g., "`*.py`" "`*.js`")
+    - `-e, --exclude` - Files to exclude (e.g., "`tests/*`" "`docs/*`")
+    - `-s, --max-size` - Maximum file size in bytes (default: 100KB)
+    - `--language` - Language for the generated tutorial (default: "english")
+    - `--max-abstractions` - Maximum number of abstractions to identify (default: 10)
+    - `--no-cache` - Disable LLM response caching (default: caching enabled)
+
+### Examples
+
+Generate a complete codebase tutorial by running the main script:
     ```bash
     # Analyze a GitHub repository
     python main.py --repo https://github.com/username/repo --include "*.py" "*.js" --exclude "tests/*" --max-size 50000
@@ -28,16 +60,31 @@
     python main.py --repo https://github.com/username/repo --language "Chinese"
     ```
 
-    - `--repo` or `--dir` - Specify either a GitHub repo URL or a local directory path (required, mutually exclusive)
-    - `-n, --name` - Project name (optional, derived from URL/directory if omitted)
-    - `-t, --token` - GitHub token (or set GITHUB_TOKEN environment variable)
-    - `-o, --output` - Output directory (default: ./output)
-    - `-i, --include` - Files to include (e.g., "`*.py`" "`*.js`")
-    - `-e, --exclude` - Files to exclude (e.g., "`tests/*`" "`docs/*`")
-    - `-s, --max-size` - Maximum file size in bytes (default: 100KB)
-    - `--language` - Language for the generated tutorial (default: "english")
-    - `--max-abstractions` - Maximum number of abstractions to identify (default: 10)
-    - `--no-cache` - Disable LLM response caching (default: caching enabled)
+## Architecture
+
+CodeViz uses a modular flow-based architecture with the following components:
+
+1. **PocketFlow Engine** (`pocketflow.py`): A lightweight flow orchestration system
+2. **Core Nodes** (`nodes.py`):
+   - `FetchRepo`: Retrieves and filters repository content
+   - `IdentifyAbstractions`: Analyzes code structure
+   - `AnalyzeRelationships`: Determines relationships between components
+   - `OrderChapters`: Organizes content logically
+   - `WriteChapters`: Generates tutorial content
+   - `CombineTutorial`: Combines chapters into final output
+
+## Default File Patterns
+
+### Included by Default
+- Common code files (*.py, *.js, *.jsx, *.ts, *.tsx, etc.)
+- Documentation files (*.md, *.rst)
+- Configuration files (Dockerfile, Makefile, *.yaml, *.yml)
+
+### Excluded by Default
+- Asset directories (assets/, images/, public/, etc.)
+- Build artifacts (dist/, build/, node_modules/, etc.)
+- Test files and directories
+- Version control directories (.git/, .github/)
 
 The application will crawl the repository, analyze the codebase structure, generate tutorial content in the specified language, and save the output in the specified directory (default: ./output).
 
@@ -80,7 +127,11 @@ To run this project in a Docker container, you'll need to pass your API keys as 
 </details>
 
 ### Sample Output Generation
+
+```bash
 python main.py --repo https://github.com/rsrini7/ai-travel-agent --include "*.py" "*.sql" --exclude "tests/*" --max-size 50000
+```
+<details>
 Warning: No GitHub token provided. You might hit rate limits for public repositories.
 Starting tutorial generation for: https://github.com/rsrini7/ai-travel-agent in English language
 LLM caching: Enabled
@@ -163,8 +214,17 @@ Combining tutorial into directory: output/ai-travel-agent
   - Wrote output/ai-travel-agent/08_error_handling___extract_error_message_from_payload__.md
 
 Tutorial generation complete! Files are in: output/ai-travel-agent
+</details>
 
 ### References
-Combined from below code bases.
+Combined from below code bases just using OpenRouter as LLM:
 https://github.com/The-Pocket/PocketFlow
 https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+[License Type] - See LICENSE file for details
